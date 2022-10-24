@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { RecipesProvider } from "./contexts/Recipes/Recipes.provider";
+import RootNavigation from "./navigation/RootNavigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n/i18n";
+import { AuthProvider } from "./contexts/Authentication/Auth.provider";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <RecipesProvider>
+          <AuthProvider>
+            <RootNavigation />
+          </AuthProvider>
+        </RecipesProvider>
+        <ReactQueryDevtools initialIsOpen />
+      </QueryClientProvider>
+    </I18nextProvider>
   );
 }
 
